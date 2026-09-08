@@ -1,0 +1,50 @@
+<config
+    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+    xmlns='http://www.ehcache.org/v3'
+    xmlns:jsr107='http://www.ehcache.org/v3/jsr107'
+    xsi:schemaLocation="
+        http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd
+        http://www.ehcache.org/v3/jsr107 http://www.ehcache.org/schema/ehcache-107-ext-3.0.xsd">
+
+    <!-- L2 Cache for Geolocation static lookup table -->
+    <cache alias="com.analytics.engine.model.Geolocation">
+        <expiry>
+            <ttl unit="minutes">60</ttl>
+        </expiry>
+        <heap unit="entries">2000</heap>
+    </cache>
+
+    <!-- L2 Cache for UserAgent / DeviceProfile static lookup table -->
+    <cache alias="com.analytics.engine.model.UserAgent">
+        <expiry>
+            <ttl unit="minutes">60</ttl>
+        </expiry>
+        <heap unit="entries">2000</heap>
+    </cache>
+
+    <!-- L2 Cache for User table -->
+    <cache alias="com.analytics.engine.model.User">
+        <expiry>
+            <ttl unit="minutes">30</ttl>
+        </expiry>
+        <heap unit="entries">5000</heap>
+    </cache>
+
+    <!-- Query Cache Region: caches reporting aggregates.
+         Strict 5-minute TTL as required by the interview specification to prevent stale analytics. -->
+    <cache alias="default-query-results-region">
+        <expiry>
+            <ttl unit="minutes">5</ttl>
+        </expiry>
+        <heap unit="entries">1000</heap>
+    </cache>
+
+    <!-- Hibernate Timestamps Region: tracks table modifications for auto-invalidation of query cache -->
+    <cache alias="default-update-timestamps-region">
+        <expiry>
+            <none/>
+        </expiry>
+        <heap unit="entries">10000</heap>
+    </cache>
+
+</config>
